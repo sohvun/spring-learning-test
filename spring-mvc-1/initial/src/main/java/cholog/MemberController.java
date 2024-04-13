@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MemberController {
@@ -18,8 +19,10 @@ public class MemberController {
         return null;
     }
 
+    @GetMapping("/json")
+    // 컨트롤러 메서드의 리턴타입을 그대로 body에 담아 응답을 하기 위해서는 @ResponseBody를 활용할 수 있습니다.
+    @ResponseBody
     public Person json() {
-        // TODO: /json 요청 시 {"name": "brown", "age": 20} 데이터를 응답할 수 있도록 설정하세요.
-        return null;
+        return new Person("brown", 20);
     }
 }
