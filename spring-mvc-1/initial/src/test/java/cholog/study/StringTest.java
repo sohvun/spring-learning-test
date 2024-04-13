@@ -26,5 +26,13 @@ public class StringTest {
         String[] result = input.split(",");
         assertThat(result).containsExactly("1");
     }
+
+    // 요구사항 2
+    @Test
+    void removeParentheses() { // 문자열에서 괄호를 제거하는 테스트
+        String input = "(1,2)";
+        String result = input.substring(1, input.length() - 1);
+        assertThat(result).isEqualTo("1,2");
+    }
 }
 
