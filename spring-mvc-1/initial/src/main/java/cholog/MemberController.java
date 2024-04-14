@@ -16,7 +16,7 @@ public class MemberController {
     public String world(@RequestParam(name="name") String name, Model model) {
         // Model 객체는 컨트롤러 메서드의 파라미터로 주입 받을 수 있고, addAttribute 메서드를 통해 값을 전달할 수 있습니다.
         model.addAttribute("name", name);
-        return null;
+        return "hello";
     }
 
     @GetMapping("/json")
