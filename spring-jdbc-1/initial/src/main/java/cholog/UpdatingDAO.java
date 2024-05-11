@@ -50,13 +50,27 @@ public class UpdatingDAO {
      * public int update(final PreparedStatementCreator psc, final KeyHolder generatedKeyHolder)
      */
     public Long insertWithKeyHolder(Customer customer) {
+        //
         String sql = "insert into customers (first_name, last_name) values (?, ?)";
+        // KeyHolder 인터페이스를 구현한 GeneratedKeyHolder 객체를 생성
+        // -- 이 객체는 데이터베이스 삽입 작업으로 생성된 키를 유지하기 위해 사용됨
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         //todo : keyHolder에 대해 학습하고, Customer를 저장후 저장된 Customer의 id를 반환하기
 
+        // update 메서드 호출
+        // 1st parameter: connection 람다식 -- 삽입 작업을 정의하고 실행하는 데 사용
+        jdbcTemplate.update(connection -> { // Connection 객체를 사용하여 삽입 작업을 수행하기 위해 PreparedStatement를 생성
+            PreparedStatement ps = connection.prepareStatement(
+                    sql, new String[]{"id"}); // id 열은 데이터베이스에서 생성되는 자동 증가 기본 키!
+            ps.setString(1, customer.getFirstName()); // PreparedStatement에 동적으로 값을 바인딩
+            ps.setString(2, customer.getLastName());
+            return ps;
+        }, keyHolder); // 2nd parameter: KeyHolder 객체 -- 삽입 작업으로 생성된 키를 보관하는 객체
+
+        // KeyHolder에서 삽입 작업으로 생성된 키를 가져옴: 이 키는 자동 증가 기본 키로 설정된 열의 값
         Long id = keyHolder.getKey().longValue();
 
-        return keyHolder.getKey().longValue();
+        return id;
     }
 }
